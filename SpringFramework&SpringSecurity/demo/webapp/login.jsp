@@ -7,8 +7,8 @@
     <sec:csrfMetaTags />
     <title>登录</title>
     <link rel="stylesheet" type="text/css" href="static/css/reset.min.css">
-    <link rel="stylesheet" type="text/css" href="static/jlib/easyui/1.5.5.4/themes/material-teal/easyui.css">
-    <link rel="stylesheet" type="text/css" href="static/jlib/easyui/1.5.5.4/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/material-teal/easyui.css">
+    <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="static/css/login.css">
 </head>
 <body>
@@ -63,8 +63,8 @@
     </div>
 </div>
 
-<script type="text/javascript" src="static/jlib/jquery/3.3.1/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="static/jlib/easyui/1.5.5.4/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="static/js/login.js"></script>
 </body>
 </html>
