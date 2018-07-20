@@ -1,0 +1,1 @@
+insert into TBL_USER (ID, NAME, AUTH) values (1, 'Admin', 1);

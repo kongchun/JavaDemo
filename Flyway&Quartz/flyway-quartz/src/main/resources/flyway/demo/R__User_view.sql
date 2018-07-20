@@ -1,0 +1,2 @@
+CREATE OR REPLACE VIEW user_view AS 
+SELECT id, name FROM TBL_USER;
