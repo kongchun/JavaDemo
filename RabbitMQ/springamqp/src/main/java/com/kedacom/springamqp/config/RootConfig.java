@@ -1,6 +1,10 @@
 package com.kedacom.springamqp.config;
 
 import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.AnonymousQueue;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
@@ -11,8 +15,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import com.kedacom.springamqp.rmq.Receiver;
 
 /**
  * Spring ApplicationContext配置
@@ -39,10 +41,9 @@ public class RootConfig {
 		return new RabbitTemplate(connectionFactory());
 	}
 
-	@Bean
-	public Queue myQueue() {
-		return new Queue("myqueue");
-	}
+	/*
+	 * @Bean public Queue myQueue() { return new Queue("myqueue"); }
+	 */
 
 	@Bean
 	public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
@@ -51,17 +52,40 @@ public class RootConfig {
 		return factory;
 	}
 
+	@Bean
+	public FanoutExchange fanout() {
+		return new FanoutExchange("demo.fanout");
+	}
+
+	@SuppressWarnings("unused")
 	private static class ReceiverConfig {
 
+		// 生成默认队列 包括名字
 		@Bean
-		public Receiver receiver1() {
-			return new Receiver(1);
+		public Queue autoDeleteQueue1() {
+			return new AnonymousQueue();
 		}
 
 		@Bean
-		public Receiver receiver2() {
-			return new Receiver(2);
+		public Queue autoDeleteQueue2() {
+			return new AnonymousQueue();
 		}
+
+		// 绑定队列到Exchange
+		@Bean
+		public Binding binding1(FanoutExchange fanout, Queue autoDeleteQueue1) {
+			return BindingBuilder.bind(autoDeleteQueue1).to(fanout);
+		}
+
+		@Bean
+		public Binding binding2(FanoutExchange fanout, Queue autoDeleteQueue2) {
+			return BindingBuilder.bind(autoDeleteQueue2).to(fanout);
+		}
+
+		/*
+		 * @Bean public Receiver receiver1() { return new Receiver(1); }
+		 * @Bean public Receiver receiver2() { return new Receiver(2); }
+		 */
 
 	}
 }

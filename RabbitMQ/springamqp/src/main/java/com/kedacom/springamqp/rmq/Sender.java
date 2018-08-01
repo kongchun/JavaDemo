@@ -2,7 +2,7 @@ package com.kedacom.springamqp.rmq;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,8 +18,12 @@ public class Sender {
 	@Autowired
 	private RabbitTemplate template;
 
+	/*
+	 * @Autowired private Queue queue;
+	 */
+
 	@Autowired
-	private Queue queue;
+	private FanoutExchange fanout;
 
 	private static Logger logger = LoggerFactory.getLogger(Sender.class.getSimpleName());
 	private int dots = 0;
@@ -32,7 +36,8 @@ public class Sender {
 			builder.append('.');
 		}
 		String message = builder.toString();
-		template.convertAndSend(queue.getName(), message);
+		// 通过Exchange发送
+		template.convertAndSend(fanout.getName(), "", message);
 		logger.info("Sent '" + message + "'");
 	}
 }
