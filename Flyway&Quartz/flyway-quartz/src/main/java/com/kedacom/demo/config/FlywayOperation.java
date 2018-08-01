@@ -40,6 +40,8 @@ public class FlywayOperation {
 		// 修改flyway自动扫描SQL路径，默认classpath:db/migration和db.migration
 		flyway.setLocations("classpath:flyway/demo", "com.kedacom.demo.migration");
 		flyway.setEncoding("UTF-8");
+		// 设置可以乱序（可以补充版本号）
+		flyway.setOutOfOrder(true);
 		// flyway.setSqlMigrationPrefix("V");
 		// flyway.setSqlMigrationSeparator("__");
 		// flyway.setSqlMigrationSuffixes("sql");
