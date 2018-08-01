@@ -1,5 +1,7 @@
 package com.kedacom.springamqp.rmq;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,18 @@ public class Sender {
 	@Autowired
 	private Queue queue;
 
+	private static Logger logger = LoggerFactory.getLogger(Sender.class.getSimpleName());
+	private int dots = 0;
+
 	public void send() {
-		String message = "Hello World!";
+		StringBuilder builder = new StringBuilder("Hello");
+		// 以点计数
+		dots++;
+		for (int i = 0; i < dots; i++) {
+			builder.append('.');
+		}
+		String message = builder.toString();
 		template.convertAndSend(queue.getName(), message);
-		System.out.println(" [x] Sent '" + message + "'");
+		logger.info("Sent '" + message + "'");
 	}
 }

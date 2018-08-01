@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.kedacom.springamqp.rmq.Receiver;
+
 /**
  * Spring ApplicationContext配置
  * @author lihongguang
@@ -47,5 +49,19 @@ public class RootConfig {
 		SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
 		factory.setConnectionFactory(connectionFactory());
 		return factory;
+	}
+
+	private static class ReceiverConfig {
+
+		@Bean
+		public Receiver receiver1() {
+			return new Receiver(1);
+		}
+
+		@Bean
+		public Receiver receiver2() {
+			return new Receiver(2);
+		}
+
 	}
 }
