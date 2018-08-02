@@ -14,22 +14,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Server {
 
-	/*
-	 * private final int instance; public Receiver(int i) { this.instance = i; }
-	 */
-
-	// private static Logger logger = LoggerFactory.getLogger("Receiver
-	// Instance");
 	private static Logger logger = LoggerFactory.getLogger(Server.class.getSimpleName());
 
-	// 为两个队列添加监听
-	/*
-	 * @RabbitListener(queues = "#{autoDeleteQueue1.name}") public void
-	 * receive1(String in) throws InterruptedException { receive(in, 1); }
-	 * @RabbitListener(queues = "#{autoDeleteQueue2.name}") public void
-	 * receive2(String in) throws InterruptedException { receive(in, 2); }
+	/**
+	 * 监听客户端发来的请求并返回消息
+	 * @param n
+	 * @return
 	 */
-
 	@RabbitListener(queues = "demo.rpc.requests")
 	public int fibonacci(int n) {
 		logger.info("Received request for fib(" + n + ")");
@@ -38,9 +29,29 @@ public class Server {
 		return result;
 	}
 
+	/**
+	 * 斐波那契数列
+	 * @param n
+	 * @return
+	 */
 	public int fib(int n) {
 		return n == 0 ? 0 : n == 1 ? 1 : (fib(n - 1) + fib(n - 2));
 	}
+
+	/*
+	 * private final int instance; public Receiver(int i) { this.instance = i; }
+	 */
+
+	// private static Logger logger = LoggerFactory.getLogger("Receiver
+	// Instance");
+
+	// 为两个队列添加监听
+	/*
+	 * @RabbitListener(queues = "#{autoDeleteQueue1.name}") public void
+	 * receive1(String in) throws InterruptedException { receive(in, 1); }
+	 * @RabbitListener(queues = "#{autoDeleteQueue2.name}") public void
+	 * receive2(String in) throws InterruptedException { receive(in, 2); }
+	 */
 
 	// @RabbitHandler
 	/*

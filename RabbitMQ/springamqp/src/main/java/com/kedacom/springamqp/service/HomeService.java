@@ -11,5 +11,5 @@ public interface HomeService {
 	/**
 	 * 发送消息
 	 */
-	void send();
+	Integer send(Integer index);
 }

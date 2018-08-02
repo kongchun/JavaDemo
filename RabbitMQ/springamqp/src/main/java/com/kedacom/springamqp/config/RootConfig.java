@@ -40,16 +40,32 @@ public class RootConfig {
 		return new RabbitTemplate(connectionFactory());
 	}
 
-	/*
-	 * @Bean public Queue myQueue() { return new Queue("myqueue"); }
-	 */
-
 	@Bean
 	public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
 		SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
 		factory.setConnectionFactory(connectionFactory());
 		return factory;
 	}
+
+	@Bean
+	public TopicExchange topic() {
+		return new TopicExchange("demo.topic.rpc");
+	}
+
+	@Bean
+	public Queue queue() {
+		return new Queue("demo.rpc.requests");
+	}
+
+	// 绑定队列到Exchange
+	@Bean
+	public Binding binding(TopicExchange exchange, Queue queue) {
+		return BindingBuilder.bind(queue).to(exchange).with("rpc.#");
+	}
+
+	/*
+	 * @Bean public Queue myQueue() { return new Queue("myqueue"); }
+	 */
 
 	/*
 	 * @Bean public FanoutExchange fanout() { return new
@@ -61,24 +77,11 @@ public class RootConfig {
 	 * DirectExchange("demo.direct"); }
 	 */
 
-	@Bean
-	public TopicExchange topic() {
-		return new TopicExchange("demo.topic.rpc");
-	}
-
-	// 生成默认队列 包括名字
 	/*
 	 * @Bean public Queue autoDeleteQueue1() { return new AnonymousQueue(); }
 	 * @Bean public Queue autoDeleteQueue2() { return new AnonymousQueue(); }
 	 */
 
-	@Bean
-	public Queue queue() {
-		return new Queue("demo.rpc.requests");
-	}
-
-	// 绑定队列到Exchange
-	// Fanout模式
 	/*
 	 * @Bean public Binding binding1(FanoutExchange fanout, Queue
 	 * autoDeleteQueue1) { return
@@ -87,7 +90,6 @@ public class RootConfig {
 	 * autoDeleteQueue2) { return
 	 * BindingBuilder.bind(autoDeleteQueue2).to(fanout); }
 	 */
-	// Direct模式
 	/*
 	 * @Bean public Binding binding1a(DirectExchange direct, Queue
 	 * autoDeleteQueue1) { return
@@ -102,7 +104,6 @@ public class RootConfig {
 	 * autoDeleteQueue2) { return
 	 * BindingBuilder.bind(autoDeleteQueue2).to(direct).with("two"); }
 	 */
-	// Topic模式
 	/*
 	 * @Bean public Binding binding1a(TopicExchange topic, Queue
 	 * autoDeleteQueue1) { return
@@ -114,11 +115,6 @@ public class RootConfig {
 	 * autoDeleteQueue2) { return
 	 * BindingBuilder.bind(autoDeleteQueue2).to(topic).with("lazy.#"); }
 	 */
-
-	@Bean
-	public Binding binding(TopicExchange exchange, Queue queue) {
-		return BindingBuilder.bind(queue).to(exchange).with("rpc.#");
-	}
 
 	/*
 	 * @Bean public Receiver receiver1() { return new Receiver(1); }

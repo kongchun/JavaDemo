@@ -21,8 +21,8 @@ public class HomeServiceImpl implements HomeService {
 	 */
 
 	@Override
-	public void send() {
-		sender.send();
+	public Integer send(Integer index) {
+		return sender.send(index);
 	}
 
 }

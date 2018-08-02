@@ -1,7 +1,5 @@
 package com.kedacom.springamqp.rmq;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,37 +16,19 @@ public class Client {
 	@Autowired
 	private RabbitTemplate template;
 
-	/*
-	 * @Autowired private Queue queue;
-	 */
-
-	/*
-	 * @Autowired private FanoutExchange fanout;
-	 */
-
-	/*
-	 * @Autowired private DirectExchange direct;
-	 */
-
 	@Autowired
 	private TopicExchange topic;
 
-	private static Logger logger = LoggerFactory.getLogger(Client.class.getSimpleName());
-	// private int dots = 0;
-	private int index = 0;
-	/*
-	 * private final String[] keys = { "one", "two", "three" };
+	/**
+	 * 发送请求并返回结果
+	 * @param index
+	 * @return
 	 */
-	/*
-	 * private final String[] keys = { "quick.orange.rabbit",
-	 * "lazy.orange.elephant", "quick.orange.fox", "lazy.brown.fox",
-	 * "lazy.pink.rabbit", "quick.brown.fox" };
-	 */
+	public Integer send(Integer index) {
 
-	public void send() {
-		logger.info("Requesting fib(" + index + ")");
-		Integer response = (Integer) template.convertSendAndReceive(topic.getName(), "rpc.test", index++);
-		logger.info("Got fib(" + index + ")=" + response);
+		Integer response = (Integer) template.convertSendAndReceive(topic.getName(), "rpc.test", index);
+		return response;
+
 		// StringBuilder builder = new StringBuilder("Hello to ");
 		// 以点计数
 		/*
@@ -63,6 +43,33 @@ public class Client {
 		// 通过Exchange发送
 		// template.convertAndSend(topic.getName(), key, message);
 		// logger.info("Sent '" + message + "'");
-
+		// logger.info("Requesting fib(" + index + ")");
+		// logger.info("Got fib(" + index + ")=" + response);
 	}
+
+	/*
+	 * @Autowired private Queue queue;
+	 */
+
+	/*
+	 * @Autowired private FanoutExchange fanout;
+	 */
+
+	/*
+	 * @Autowired private DirectExchange direct;
+	 */
+	// private static Logger logger =
+	// LoggerFactory.getLogger(Client.class.getSimpleName());
+	// private int dots = 0;
+	// private int index = 0;
+
+	/*
+	 * private final String[] keys = { "one", "two", "three" };
+	 */
+	/*
+	 * private final String[] keys = { "quick.orange.rabbit",
+	 * "lazy.orange.elephant", "quick.orange.fox", "lazy.brown.fox",
+	 * "lazy.pink.rabbit", "quick.brown.fox" };
+	 */
+
 }
