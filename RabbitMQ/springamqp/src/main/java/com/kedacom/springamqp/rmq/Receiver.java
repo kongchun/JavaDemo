@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StopWatch;
 
 /**
  * RabbitMQ 监听
@@ -34,21 +33,19 @@ public class Receiver {
 
 	// @RabbitHandler
 	public void receive(String in, int receiver) throws InterruptedException {
-		StopWatch watch = new StopWatch();
-		watch.start();
+		// StopWatch watch = new StopWatch();
+		// watch.start();
 		logger.info(receiver + "  Received '" + in + "'");
-		doWork(in);
-		watch.stop();
-		logger.info(receiver + "  Done in " + watch.getTotalTimeSeconds() + "s");
+		// doWork(in);
+		// watch.stop();
+		// logger.info(receiver + " Done in " + watch.getTotalTimeSeconds() +
+		// "s");
 	}
 
-	private void doWork(String in) throws InterruptedException {
-		for (char ch : in.toCharArray()) {
-			if (ch == '.') {
-				// 模拟复杂任务阻塞进程
-				Thread.sleep(1000);
-			}
-		}
-	}
+	/*
+	 * private void doWork(String in) throws InterruptedException { for (char ch
+	 * : in.toCharArray()) { if (ch == '.') { // 模拟复杂任务阻塞进程 Thread.sleep(1000);
+	 * } } }
+	 */
 
 }

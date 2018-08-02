@@ -4,7 +4,7 @@ import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.AnonymousQueue;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
@@ -52,9 +52,14 @@ public class RootConfig {
 		return factory;
 	}
 
+	/*
+	 * @Bean public FanoutExchange fanout() { return new
+	 * FanoutExchange("demo.fanout"); }
+	 */
+
 	@Bean
-	public FanoutExchange fanout() {
-		return new FanoutExchange("demo.fanout");
+	public DirectExchange direct() {
+		return new DirectExchange("demo.direct");
 	}
 
 	@SuppressWarnings("unused")
@@ -72,14 +77,33 @@ public class RootConfig {
 		}
 
 		// 绑定队列到Exchange
+		/*
+		 * @Bean public Binding binding1(FanoutExchange fanout, Queue
+		 * autoDeleteQueue1) { return
+		 * BindingBuilder.bind(autoDeleteQueue1).to(fanout); }
+		 * @Bean public Binding binding2(FanoutExchange fanout, Queue
+		 * autoDeleteQueue2) { return
+		 * BindingBuilder.bind(autoDeleteQueue2).to(fanout); }
+		 */
+
 		@Bean
-		public Binding binding1(FanoutExchange fanout, Queue autoDeleteQueue1) {
-			return BindingBuilder.bind(autoDeleteQueue1).to(fanout);
+		public Binding binding1a(DirectExchange direct, Queue autoDeleteQueue1) {
+			return BindingBuilder.bind(autoDeleteQueue1).to(direct).with("one");
 		}
 
 		@Bean
-		public Binding binding2(FanoutExchange fanout, Queue autoDeleteQueue2) {
-			return BindingBuilder.bind(autoDeleteQueue2).to(fanout);
+		public Binding binding1b(DirectExchange direct, Queue autoDeleteQueue1) {
+			return BindingBuilder.bind(autoDeleteQueue1).to(direct).with("two");
+		}
+
+		@Bean
+		public Binding binding2a(DirectExchange direct, Queue autoDeleteQueue2) {
+			return BindingBuilder.bind(autoDeleteQueue2).to(direct).with("three");
+		}
+
+		@Bean
+		public Binding binding2b(DirectExchange direct, Queue autoDeleteQueue2) {
+			return BindingBuilder.bind(autoDeleteQueue2).to(direct).with("two");
 		}
 
 		/*
