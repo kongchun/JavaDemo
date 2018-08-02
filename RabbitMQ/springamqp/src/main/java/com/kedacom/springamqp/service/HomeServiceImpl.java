@@ -3,7 +3,7 @@ package com.kedacom.springamqp.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kedacom.springamqp.rmq.Sender;
+import com.kedacom.springamqp.rmq.Client;
 
 /**
  * 主服务接口实现
@@ -14,7 +14,7 @@ import com.kedacom.springamqp.rmq.Sender;
 public class HomeServiceImpl implements HomeService {
 
 	@Autowired
-	private Sender sender;
+	private Client sender;
 
 	/**
 	 * @see com.kedacom.springamqp.service.HomeService#send()

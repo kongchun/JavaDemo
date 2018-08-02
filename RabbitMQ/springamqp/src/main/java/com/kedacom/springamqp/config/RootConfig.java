@@ -1,7 +1,6 @@
 package com.kedacom.springamqp.config;
 
 import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.AnonymousQueue;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -64,68 +63,66 @@ public class RootConfig {
 
 	@Bean
 	public TopicExchange topic() {
-		return new TopicExchange("demo.topic");
+		return new TopicExchange("demo.topic.rpc");
 	}
 
-	@SuppressWarnings("unused")
-	private static class ReceiverConfig {
+	// 生成默认队列 包括名字
+	/*
+	 * @Bean public Queue autoDeleteQueue1() { return new AnonymousQueue(); }
+	 * @Bean public Queue autoDeleteQueue2() { return new AnonymousQueue(); }
+	 */
 
-		// 生成默认队列 包括名字
-		@Bean
-		public Queue autoDeleteQueue1() {
-			return new AnonymousQueue();
-		}
-
-		@Bean
-		public Queue autoDeleteQueue2() {
-			return new AnonymousQueue();
-		}
-
-		// 绑定队列到Exchange
-		// Fanout模式
-		/*
-		 * @Bean public Binding binding1(FanoutExchange fanout, Queue
-		 * autoDeleteQueue1) { return
-		 * BindingBuilder.bind(autoDeleteQueue1).to(fanout); }
-		 * @Bean public Binding binding2(FanoutExchange fanout, Queue
-		 * autoDeleteQueue2) { return
-		 * BindingBuilder.bind(autoDeleteQueue2).to(fanout); }
-		 */
-		// Direct模式
-		/*
-		 * @Bean public Binding binding1a(DirectExchange direct, Queue
-		 * autoDeleteQueue1) { return
-		 * BindingBuilder.bind(autoDeleteQueue1).to(direct).with("one"); }
-		 * @Bean public Binding binding1b(DirectExchange direct, Queue
-		 * autoDeleteQueue1) { return
-		 * BindingBuilder.bind(autoDeleteQueue1).to(direct).with("two"); }
-		 * @Bean public Binding binding2a(DirectExchange direct, Queue
-		 * autoDeleteQueue2) { return
-		 * BindingBuilder.bind(autoDeleteQueue2).to(direct).with("three"); }
-		 * @Bean public Binding binding2b(DirectExchange direct, Queue
-		 * autoDeleteQueue2) { return
-		 * BindingBuilder.bind(autoDeleteQueue2).to(direct).with("two"); }
-		 */
-		// Topic模式
-		@Bean
-		public Binding binding1a(TopicExchange topic, Queue autoDeleteQueue1) {
-			return BindingBuilder.bind(autoDeleteQueue1).to(topic).with("*.orange.*");
-		}
-
-		@Bean
-		public Binding binding1b(TopicExchange topic, Queue autoDeleteQueue1) {
-			return BindingBuilder.bind(autoDeleteQueue1).to(topic).with("*.*.rabbit");
-		}
-
-		@Bean
-		public Binding binding2a(TopicExchange topic, Queue autoDeleteQueue2) {
-			return BindingBuilder.bind(autoDeleteQueue2).to(topic).with("lazy.#");
-		}
-
-		/*
-		 * @Bean public Receiver receiver1() { return new Receiver(1); }
-		 * @Bean public Receiver receiver2() { return new Receiver(2); }
-		 */
-
+	@Bean
+	public Queue queue() {
+		return new Queue("demo.rpc.requests");
 	}
+
+	// 绑定队列到Exchange
+	// Fanout模式
+	/*
+	 * @Bean public Binding binding1(FanoutExchange fanout, Queue
+	 * autoDeleteQueue1) { return
+	 * BindingBuilder.bind(autoDeleteQueue1).to(fanout); }
+	 * @Bean public Binding binding2(FanoutExchange fanout, Queue
+	 * autoDeleteQueue2) { return
+	 * BindingBuilder.bind(autoDeleteQueue2).to(fanout); }
+	 */
+	// Direct模式
+	/*
+	 * @Bean public Binding binding1a(DirectExchange direct, Queue
+	 * autoDeleteQueue1) { return
+	 * BindingBuilder.bind(autoDeleteQueue1).to(direct).with("one"); }
+	 * @Bean public Binding binding1b(DirectExchange direct, Queue
+	 * autoDeleteQueue1) { return
+	 * BindingBuilder.bind(autoDeleteQueue1).to(direct).with("two"); }
+	 * @Bean public Binding binding2a(DirectExchange direct, Queue
+	 * autoDeleteQueue2) { return
+	 * BindingBuilder.bind(autoDeleteQueue2).to(direct).with("three"); }
+	 * @Bean public Binding binding2b(DirectExchange direct, Queue
+	 * autoDeleteQueue2) { return
+	 * BindingBuilder.bind(autoDeleteQueue2).to(direct).with("two"); }
+	 */
+	// Topic模式
+	/*
+	 * @Bean public Binding binding1a(TopicExchange topic, Queue
+	 * autoDeleteQueue1) { return
+	 * BindingBuilder.bind(autoDeleteQueue1).to(topic).with("*.orange.*"); }
+	 * @Bean public Binding binding1b(TopicExchange topic, Queue
+	 * autoDeleteQueue1) { return
+	 * BindingBuilder.bind(autoDeleteQueue1).to(topic).with("*.*.rabbit"); }
+	 * @Bean public Binding binding2a(TopicExchange topic, Queue
+	 * autoDeleteQueue2) { return
+	 * BindingBuilder.bind(autoDeleteQueue2).to(topic).with("lazy.#"); }
+	 */
+
+	@Bean
+	public Binding binding(TopicExchange exchange, Queue queue) {
+		return BindingBuilder.bind(queue).to(exchange).with("rpc.#");
+	}
+
+	/*
+	 * @Bean public Receiver receiver1() { return new Receiver(1); }
+	 * @Bean public Receiver receiver2() { return new Receiver(2); }
+	 */
+
 }
