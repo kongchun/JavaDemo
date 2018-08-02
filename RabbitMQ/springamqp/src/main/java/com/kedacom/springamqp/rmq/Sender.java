@@ -2,7 +2,7 @@ package com.kedacom.springamqp.rmq;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,14 +26,22 @@ public class Sender {
 	 * @Autowired private FanoutExchange fanout;
 	 */
 
+	/*
+	 * @Autowired private DirectExchange direct;
+	 */
+
 	@Autowired
-	private DirectExchange direct;
+	private TopicExchange topic;
 
 	private static Logger logger = LoggerFactory.getLogger(Sender.class.getSimpleName());
 	// private int dots = 0;
 	private int index = 0;
+	/*
+	 * private final String[] keys = { "one", "two", "three" };
+	 */
 	private final String[] keys = {
-			"one", "two", "three"
+			"quick.orange.rabbit", "lazy.orange.elephant", "quick.orange.fox", "lazy.brown.fox", "lazy.pink.rabbit",
+			"quick.brown.fox"
 	};
 
 	public void send() {
@@ -43,13 +51,13 @@ public class Sender {
 		 * dots++; for (int i = 0; i < dots; i++) { builder.append('.'); }
 		 */
 		String key = keys[this.index];
-		if (++this.index == 3) {
+		if (++this.index == 6) {
 			this.index = 0;
 		}
 		builder.append(key);
 		String message = builder.toString();
 		// 通过Exchange发送
-		template.convertAndSend(direct.getName(), key, message);
+		template.convertAndSend(topic.getName(), key, message);
 		logger.info("Sent '" + message + "'");
 	}
 }
