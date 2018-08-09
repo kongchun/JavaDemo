@@ -1,5 +1,7 @@
 package com.kedacom.redis.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,5 +72,30 @@ public class HomeController {
 	@ResponseBody
 	public Long decr(String key, Long delta) {
 		return homeService.incrDecr(key, -delta);
+	}
+
+	@RequestMapping("/rpush")
+	@ResponseBody
+	public Long rpush(String key, String list) {
+		return homeService.rpush(key, list);
+	}
+
+	@RequestMapping("/lrange")
+	@ResponseBody
+	public List<Object> lrange(String key, Long start, Long end) {
+		return homeService.lrange(key, start, end);
+	}
+
+	@RequestMapping("/lset")
+	@ResponseBody
+	public Boolean lset(String key, Long index, String value) {
+		homeService.lset(key, index, value);
+		return true;
+	}
+
+	@RequestMapping("/lrem")
+	@ResponseBody
+	public Long lrem(String key, Long count, String value) {
+		return homeService.lrem(key, count, value);
 	}
 }

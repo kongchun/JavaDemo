@@ -1,5 +1,6 @@
 package com.kedacom.redis.service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,47 @@ public class HomeServiceImpl implements HomeService {
 	@Override
 	public Long incrDecr(String key, Long delta) {
 		return redisTemplate.opsForValue().increment(key, delta);
+	}
+
+	/**
+	 * @see com.kedacom.redis.service.HomeService#rpush(java.lang.String,
+	 *      java.lang.String)
+	 */
+
+	@Override
+	public Long rpush(String key, String list) {
+		String[] stringArray = list.split(" ");
+		return redisTemplate.opsForList().rightPushAll(key, (Object[]) stringArray);
+	}
+
+	/**
+	 * @see com.kedacom.redis.service.HomeService#lrange(java.lang.String,
+	 *      java.lang.Long, java.lang.Long)
+	 */
+
+	@Override
+	public List<Object> lrange(String key, Long start, Long end) {
+		return redisTemplate.opsForList().range(key, start, end);
+	}
+
+	/**
+	 * @see com.kedacom.redis.service.HomeService#lset(java.lang.String,
+	 *      java.lang.Long, java.lang.String)
+	 */
+
+	@Override
+	public void lset(String key, Long index, String value) {
+		redisTemplate.opsForList().set(key, index, value);
+	}
+
+	/**
+	 * @see com.kedacom.redis.service.HomeService#lrem(java.lang.String,
+	 *      java.lang.Long, java.lang.String)
+	 */
+
+	@Override
+	public Long lrem(String key, Long count, String value) {
+		return redisTemplate.opsForList().remove(key, count, value);
 	}
 
 }

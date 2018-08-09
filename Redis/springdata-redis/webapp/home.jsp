@@ -46,8 +46,32 @@
             <input id="decr-delta" class="form-control" placeholder="变化值" type="number"/>
             <button class="btn" onclick="decr()">减少</button>
         </div>
+        
+        <div class="input-group mt-4">
+            <input id="rpush" class="form-control" placeholder="Key名称"/>
+            <input id="rpush-list" class="form-control" placeholder="要存入List中的值 按空格分隔"/>
+            <button class="btn" onclick="rpush()">存入List</button>
+        </div>
+        <div class="input-group mt-2">
+            <input id="lrange" class="form-control" placeholder="Key名称"/>
+            <input id="lrange-start" class="form-control" placeholder="起点" type="number"/>
+            <input id="lrange-end" class="form-control" placeholder="终点" type="number"/>
+            <button class="btn" onclick="lrange()">列出List</button>
+        </div>
+        <div class="input-group mt-2">
+            <input id="lset" class="form-control" placeholder="Key名称"/>
+            <input id="lset-index" class="form-control" placeholder="索引" type="number"/>
+            <input id="lset-value" class="form-control" placeholder="Key值"/>
+            <button class="btn" onclick="lset()">修改List</button>
+        </div>
+        <div class="input-group mt-2">
+            <input id="lrem" class="form-control" placeholder="Key名称"/>
+            <input id="lrem-count" class="form-control" placeholder="删除个数"/>
+            <input id="lrem-value" class="form-control" placeholder="Key值"/>
+            <button class="btn" onclick="lrem()">List删除</button>
+        </div>
 	    
-	    <div class="card mt-3">
+	    <div class="card mt-4">
 	        <div id="result" class="card-body"></div>
 	    </div>
     </div>
@@ -55,72 +79,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        let result = $('#result');
-        function exists(){
-        	$.get("exists?key="+$('#exists').val().trim(),function (data){
-        		let text;
-        		if(data){
-        			text = '存在';
-        		}else{
-        			text = '不存在';
-        		}
-        		result.html(text);
-        	});
-        }
-        function del(){
-            $.get("del?key="+$('#del').val().trim(),function (data){
-                let text;
-                if(data){
-                    text = '成功';
-                }else{
-                    text = '失败';
-                }
-                result.html(text);
-            });
-        }
-        function expire(){
-            $.get("expire?key="+$('#expire').val().trim()+"&timeout="+$('#expire-timeout').val(),function (data){
-                let text;
-                if(data){
-                    text = '成功';
-                }else{
-                    text = '失败';
-                }
-                result.html(text);
-            });
-        }
-        function ttl(){
-            $.get("ttl?key="+$('#ttl').val().trim(),function (data){
-                result.html(data+'秒');
-            });
-        }
-        function set(){
-            $.get("set?key="+$('#set').val().trim()+"&value="+$('#set-value').val().trim(),function (data){
-                let text;
-                if(data){
-                    text = '成功';
-                }else{
-                    text = '失败';
-                }
-                result.html(text);
-            });
-        }
-        function get(){
-            $.get("get?key="+$('#get').val().trim(),function (data){
-                result.html(data);
-            });
-        }
-        function incr(){
-            $.get("incr?key="+$('#incr').val().trim()+"&delta="+$('#incr-delta').val().trim(),function (data){
-                result.html(data);
-            });
-        }
-        function decr(){
-            $.get("decr?key="+$('#decr').val().trim()+"&delta="+$('#decr-delta').val().trim(),function (data){
-                result.html(data);
-            });
-        }
-    </script>
+    <script src="static/js/home.js" type="text/javascript"></script>
 </body>
 </html>

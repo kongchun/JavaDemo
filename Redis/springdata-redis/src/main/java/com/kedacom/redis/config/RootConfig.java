@@ -59,7 +59,7 @@ public class RootConfig {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
 		redisTemplate.setConnectionFactory(jedisConnectionFactory);
 
-		// 设置序列化字符串（默认UTF-8） 仅作演示用
+		// 设置序列化字符串（默认UTF-8） 仅作演示
 		StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
 
 		redisTemplate.setKeySerializer(stringRedisSerializer);
