@@ -1,6 +1,7 @@
 package com.kedacom.redis.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -97,5 +98,31 @@ public class HomeController {
 	@ResponseBody
 	public Long lrem(String key, Long count, String value) {
 		return homeService.lrem(key, count, value);
+	}
+
+	@RequestMapping("/hmset")
+	@ResponseBody
+	public Boolean hmset(String key, String map) {
+		homeService.hmset(key, map);
+		return true;
+	}
+
+	@RequestMapping("/hgetall")
+	@ResponseBody
+	public Map<Object, Object> hgetall(String key) {
+		return homeService.hgetall(key);
+	}
+
+	@RequestMapping("/hset")
+	@ResponseBody
+	public Boolean hset(String key, String hashKey, String value) {
+		homeService.hset(key, hashKey, value);
+		return true;
+	}
+
+	@RequestMapping("/hdel")
+	@ResponseBody
+	public Long hdel(String key, String list) {
+		return homeService.hdel(key, list);
 	}
 }

@@ -70,7 +70,28 @@
             <input id="lrem-value" class="form-control" placeholder="Key值"/>
             <button class="btn" onclick="lrem()">List删除</button>
         </div>
-	    
+        
+        <div class="input-group mt-4">
+            <input id="hmset" class="form-control" placeholder="Key名称"/>
+            <input id="hmset-map" class="form-control" placeholder="要存入Hash中的键值 按空格分隔"/>
+            <button class="btn" onclick="hmset()">存入Hash</button>
+        </div>
+        <div class="input-group mt-2">
+            <input id="hgetall" class="form-control" placeholder="Key名称"/>
+            <button class="btn" onclick="hgetall()">列出Hash</button>
+        </div>
+        <div class="input-group mt-2">
+            <input id="hset" class="form-control" placeholder="Key名称"/>
+            <input id="hset-hashkey" class="form-control" placeholder="HashKey"/>
+            <input id="hset-value" class="form-control" placeholder="Key值"/>
+            <button class="btn" onclick="hset()">修改Hash</button>
+        </div>
+        <div class="input-group mt-2">
+            <input id="hdel" class="form-control" placeholder="Key名称"/>
+            <input id="hdel-list" class="form-control" placeholder="要从Hash中的键 按空格分隔"/>
+            <button class="btn" onclick="hdel()">Hash删除</button>
+        </div>
+                
 	    <div class="card mt-4">
 	        <div id="result" class="card-body"></div>
 	    </div>

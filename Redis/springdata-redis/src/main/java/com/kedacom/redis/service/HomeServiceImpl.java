@@ -1,6 +1,8 @@
 package com.kedacom.redis.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,8 +97,8 @@ public class HomeServiceImpl implements HomeService {
 
 	@Override
 	public Long rpush(String key, String list) {
-		String[] stringArray = list.split(" ");
-		return redisTemplate.opsForList().rightPushAll(key, (Object[]) stringArray);
+		String[] values = list.split(" ");
+		return redisTemplate.opsForList().rightPushAll(key, (Object[]) values);
 	}
 
 	/**
@@ -127,6 +129,58 @@ public class HomeServiceImpl implements HomeService {
 	@Override
 	public Long lrem(String key, Long count, String value) {
 		return redisTemplate.opsForList().remove(key, count, value);
+	}
+
+	/**
+	 * @see com.kedacom.redis.service.HomeService#hmset(java.lang.String,
+	 *      java.lang.String)
+	 */
+
+	@Override
+	public void hmset(String key, String map) {
+		String[] stringArray = map.split(" ");
+		Map<String, String> m = new HashMap<String, String>();
+		String mapKey = "";
+		String mapValue = "";
+		for (int i = 0; i < stringArray.length; i++) {
+			if (0 == i % 2) {
+				mapKey = stringArray[i];
+			} else {
+				mapValue = stringArray[i];
+				m.put(mapKey, mapValue);
+			}
+		}
+		redisTemplate.opsForHash().putAll(key, m);
+	}
+
+	/**
+	 * @see com.kedacom.redis.service.HomeService#hgetall(java.lang.String)
+	 */
+
+	@Override
+	public Map<Object, Object> hgetall(String key) {
+		return redisTemplate.opsForHash().entries(key);
+	}
+
+	/**
+	 * @see com.kedacom.redis.service.HomeService#hset(java.lang.String,
+	 *      java.lang.String, java.lang.String)
+	 */
+
+	@Override
+	public void hset(String key, String hashKey, String value) {
+		redisTemplate.opsForHash().put(key, hashKey, value);
+	}
+
+	/**
+	 * @see com.kedacom.redis.service.HomeService#hdel(java.lang.String,
+	 *      java.lang.String)
+	 */
+
+	@Override
+	public Long hdel(String key, String list) {
+		String[] hashKeys = list.split(" ");
+		return redisTemplate.opsForHash().delete(key, (Object[]) hashKeys);
 	}
 
 }

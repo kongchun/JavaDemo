@@ -1,6 +1,7 @@
 package com.kedacom.redis.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * (用一句话描述类的主要功能)
@@ -31,4 +32,12 @@ public interface HomeService {
 	void lset(String key, Long index, String value);
 
 	Long lrem(String key, Long count, String value);
+
+	void hmset(String key, String map);
+
+	Map<Object, Object> hgetall(String key);
+
+	void hset(String key, String hashKey, String value);
+
+	Long hdel(String key, String list);
 }

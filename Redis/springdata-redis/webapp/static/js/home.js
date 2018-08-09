@@ -87,11 +87,7 @@ function lrange() {
 	$.get("lrange?key=" + $('#lrange').val().trim() + "&start="
 			+ $('#lrange-start').val().trim() + "&end="
 			+ $('#lrange-end').val().trim(), (data)=>{
-		let text = new Array();
-		data.forEach((value)=>{
-			text.push(value+' ');
-		})
-		result.html(text);
+		result.html(JSON.stringify(data));
 	});
 }
 function lset() {
@@ -113,6 +109,46 @@ function lrem() {
 	$.get("lrem?key=" + $('#lrem').val().trim() + "&count="
 			+ $('#lrem-count').val().trim() + "&value="
 			+ $('#lrem-value').val().trim(), (data)=>{
+		result.html('已删除'+data+'个');
+	});
+}
+function hmset() {
+	result.html('');
+	$.get("hmset?key=" + $('#hmset').val().trim() + "&map="
+			+ $('#hmset-map').val().trim(), (data)=>{
+		let text;
+		if (data) {
+			text = '成功';
+		} else {
+			text = '失败';
+		}
+		result.html(text);
+	});
+}
+function hgetall() {
+	result.html('');
+	$.get("hgetall?key=" + $('#hgetall').val().trim(), (data)=>{
+		result.html(JSON.stringify(data));
+	});
+}
+function hset() {
+	result.html('');
+	$.get("hset?key=" + $('#hset').val().trim() + "&hashKey="
+			+ $('#hset-hashkey').val().trim() + "&value="
+			+ $('#hset-value').val().trim(), (data)=>{
+		let text;
+		if (data) {
+			text = '成功';
+		} else {
+			text = '失败';
+		}
+		result.html(text);
+	});
+}
+function hdel() {
+	result.html('');
+	$.get("hdel?key=" + $('#hdel').val().trim() + "&list="
+			+ $('#hdel-list').val().trim(), (data)=>{
 		result.html('已删除'+data+'个');
 	});
 }
