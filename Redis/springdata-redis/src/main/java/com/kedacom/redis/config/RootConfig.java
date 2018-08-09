@@ -8,7 +8,6 @@ import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration.JedisPoolingClientConfigurationBuilder;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import redis.clients.jedis.JedisPoolConfig;
@@ -60,14 +59,13 @@ public class RootConfig {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
 		redisTemplate.setConnectionFactory(jedisConnectionFactory);
 
-		// 默认UTF-8
+		// 设置序列化字符串（默认UTF-8） 仅作演示用
 		StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-		// 默认Spring对象序列化
-		JdkSerializationRedisSerializer jdkSerializationRedisSerializer = new JdkSerializationRedisSerializer();
+
 		redisTemplate.setKeySerializer(stringRedisSerializer);
 		redisTemplate.setHashKeySerializer(stringRedisSerializer);
-		redisTemplate.setValueSerializer(jdkSerializationRedisSerializer);
-		redisTemplate.setHashValueSerializer(jdkSerializationRedisSerializer);
+		redisTemplate.setValueSerializer(stringRedisSerializer);
+		redisTemplate.setHashValueSerializer(stringRedisSerializer);
 
 		return redisTemplate;
 	}
