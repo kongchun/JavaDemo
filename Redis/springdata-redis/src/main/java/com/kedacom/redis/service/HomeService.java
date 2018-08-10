@@ -57,4 +57,6 @@ public interface HomeService {
 	Long zadd(String key, String set);
 
 	Set<ZSetOperations.TypedTuple<Object>> zrange(String key, Long start, Long end);
+
+	List<Object> pipeline(String ekey, String dkey, String expkey, Long timeout, String tkey);
 }

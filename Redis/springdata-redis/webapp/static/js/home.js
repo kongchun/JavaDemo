@@ -207,9 +207,17 @@ function zadd() {
 }
 function zrange() {
 	result.html('');
-	$.get("zrange?key=" + $('#zrange').val().trim() + "&start="
-			+ $('#zrange-start').val().trim() + "&end="
-			+ $('#zrange-end').val().trim(), (data)=>{
+	$.get("zrange?key=" + $('#zrange').val().trim() + "&start=" + $('#zrange-start').val().trim()
+			+ "&end="+ $('#zrange-end').val().trim(), (data)=>{
 		result.html(JSON.stringify(data));
+	});
+}
+function pipeline(){
+	result.html('');
+	$.get("pipeline?ekey=" + $('#exists').val().trim() + "&dkey=" + $('#del').val().trim() + "&expkey="
+			+ $('#expire').val().trim() + "&timeout="+ $('#expire-timeout').val() + "&tkey=" + $('#ttl').val().trim(),(data)=>{
+		result.html(JSON.stringify(data));
+	}).fail(()=>{
+		result.html('失败');
 	});
 }

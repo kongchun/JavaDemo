@@ -3,4 +3,4 @@
 1. Spring Framework & Spring Security
 2. Flyway & Quartz
 3. RabbitMQ
-4. Redis --Under Developing
+4. Redis

@@ -26,6 +26,9 @@
 	        <input id="ttl" class="form-control" placeholder="Key名称"/>
 	        <button class="btn" onclick="ttl()">获取过期时间</button>
 	    </div>
+	    <div class="input-group mt-2">
+            <button class="btn" onclick="pipeline()">批量</button>
+        </div>
 	    
 	    <div class="input-group mt-4">
             <input id="set" class="form-control" placeholder="Key名称"/>

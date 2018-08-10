@@ -169,4 +169,10 @@ public class HomeController {
 	public Set<ZSetOperations.TypedTuple<Object>> zrange(String key, Long start, Long end) {
 		return homeService.zrange(key, start, end);
 	}
+
+	@RequestMapping("/pipeline")
+	@ResponseBody
+	public List<Object> pipeline(String ekey, String dkey, String expkey, Long timeout, String tkey) {
+		return homeService.pipeline(ekey, dkey, expkey, timeout, tkey);
+	}
 }

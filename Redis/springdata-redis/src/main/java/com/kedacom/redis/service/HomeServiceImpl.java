@@ -10,10 +10,15 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.DefaultTypedTuple;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 
 /**
@@ -278,4 +283,36 @@ public class HomeServiceImpl implements HomeService {
 	public Set<ZSetOperations.TypedTuple<Object>> zrange(String key, Long start, Long end) {
 		return redisTemplate.opsForZSet().rangeWithScores(key, start, end);
 	}
+
+	/**
+	 * @see com.kedacom.redis.service.HomeService#pipeline(java.lang.String,
+	 *      java.lang.String, java.lang.String, java.lang.Long,
+	 *      java.lang.String)
+	 */
+
+	@Override
+	public List<Object> pipeline(String ekey, String dkey, String expkey, Long timeout, String tkey) {
+		return redisTemplate.executePipelined(new RedisCallback<Object>() {
+
+			@Override
+			public Object doInRedis(RedisConnection connection) throws DataAccessException {
+				RedisSerializer<String> stringSerializer = new StringRedisSerializer();
+
+				byte[] rawKeyExists = stringSerializer.serialize(ekey);
+				connection.exists(rawKeyExists);
+
+				byte[] rawKeyDel = stringSerializer.serialize(dkey);
+				connection.del(rawKeyDel);
+
+				byte[] rawKeyExpire = stringSerializer.serialize(expkey);
+				connection.expire(rawKeyExpire, timeout);
+
+				byte[] rawKeyTtl = stringSerializer.serialize(tkey);
+				connection.ttl(rawKeyTtl);
+
+				return null;
+			}
+		});
+	}
+
 }
