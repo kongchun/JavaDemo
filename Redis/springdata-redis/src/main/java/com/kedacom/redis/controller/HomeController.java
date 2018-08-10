@@ -2,8 +2,10 @@ package com.kedacom.redis.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -124,5 +126,47 @@ public class HomeController {
 	@ResponseBody
 	public Long hdel(String key, String list) {
 		return homeService.hdel(key, list);
+	}
+
+	@RequestMapping("/sadd")
+	@ResponseBody
+	public Long sadd(String key, String list) {
+		return homeService.sadd(key, list);
+	}
+
+	@RequestMapping("/smembers")
+	@ResponseBody
+	public Set<Object> smembers(String key) {
+		return homeService.smembers(key);
+	}
+
+	@RequestMapping("/sinter")
+	@ResponseBody
+	public Set<Object> sinter(String list) {
+		return homeService.sinter(list);
+	}
+
+	@RequestMapping("/sunion")
+	@ResponseBody
+	public Set<Object> sunion(String list) {
+		return homeService.sunion(list);
+	}
+
+	@RequestMapping("/srem")
+	@ResponseBody
+	public Long srem(String key, String list) {
+		return homeService.srem(key, list);
+	}
+
+	@RequestMapping("/zadd")
+	@ResponseBody
+	public Long zadd(String key, String set) {
+		return homeService.zadd(key, set);
+	}
+
+	@RequestMapping("/zrange")
+	@ResponseBody
+	public Set<ZSetOperations.TypedTuple<Object>> zrange(String key, Long start, Long end) {
+		return homeService.zrange(key, start, end);
 	}
 }

@@ -53,6 +53,8 @@ function set() {
 			text = '失败';
 		}
 		result.html(text);
+	}).fail(()=>{
+		result.html('失败');
 	});
 }
 function get() {
@@ -102,6 +104,8 @@ function lset() {
 			text = '失败';
 		}
 		result.html(text);
+	}).fail(()=>{
+		result.html('失败');
 	});
 }
 function lrem() {
@@ -123,6 +127,8 @@ function hmset() {
 			text = '失败';
 		}
 		result.html(text);
+	}).fail(()=>{
+		result.html('失败');
 	});
 }
 function hgetall() {
@@ -143,6 +149,8 @@ function hset() {
 			text = '失败';
 		}
 		result.html(text);
+	}).fail(()=>{
+		result.html('失败');
 	});
 }
 function hdel() {
@@ -150,5 +158,58 @@ function hdel() {
 	$.get("hdel?key=" + $('#hdel').val().trim() + "&list="
 			+ $('#hdel-list').val().trim(), (data)=>{
 		result.html('已删除'+data+'个');
+	});
+}
+function sadd() {
+	result.html('');
+	$.get("sadd?key=" + $('#sadd').val().trim() + "&list="
+			+ $('#sadd-list').val().trim(), (data)=>{
+		result.html('已存入'+data+'个');
+	});
+}
+function smembers() {
+	result.html('');
+	$.get("smembers?key=" + $('#smembers').val().trim(), (data)=>{
+		result.html(JSON.stringify(data));
+	});
+}
+function sinter() {
+	result.html('');
+	$.get("sinter?list=" + $('#sinter').val().trim(), (data)=>{
+		result.html(JSON.stringify(data));
+	});
+}
+function sunion() {
+	result.html('');
+	$.get("sunion?list=" + $('#sunion').val().trim(), (data)=>{
+		result.html(JSON.stringify(data));
+	});
+}
+function srem() {
+	result.html('');
+	$.get("srem?key=" + $('#srem').val().trim() + "&list="
+			+ $('#srem-list').val().trim(), (data)=>{
+		result.html('已删除'+data+'个');
+	});
+}
+function zadd() {
+	result.html('');
+	$.get("zadd?key=" + $('#zadd').val().trim() + "&set="
+			+ $('#zadd-set').val().trim(),(data)=>{
+		let text;
+		if (data) {
+			text = '成功';
+		} else {
+			text = '失败';
+		}
+		result.html(text);
+	});
+}
+function zrange() {
+	result.html('');
+	$.get("zrange?key=" + $('#zrange').val().trim() + "&start="
+			+ $('#zrange-start').val().trim() + "&end="
+			+ $('#zrange-end').val().trim(), (data)=>{
+		result.html(JSON.stringify(data));
 	});
 }

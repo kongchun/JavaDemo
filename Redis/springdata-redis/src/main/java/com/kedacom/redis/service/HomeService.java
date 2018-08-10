@@ -2,6 +2,9 @@ package com.kedacom.redis.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.springframework.data.redis.core.ZSetOperations;
 
 /**
  * (用一句话描述类的主要功能)
@@ -40,4 +43,18 @@ public interface HomeService {
 	void hset(String key, String hashKey, String value);
 
 	Long hdel(String key, String list);
+
+	Long sadd(String key, String list);
+
+	Set<Object> smembers(String key);
+
+	Set<Object> sinter(String list);
+
+	Set<Object> sunion(String list);
+
+	Long srem(String key, String list);
+
+	Long zadd(String key, String set);
+
+	Set<ZSetOperations.TypedTuple<Object>> zrange(String key, Long start, Long end);
 }

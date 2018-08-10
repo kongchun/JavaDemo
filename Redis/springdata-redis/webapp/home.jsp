@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="margin-bottom:64px;">
 	    <div class="input-group mt-2">
 	        <input id="exists" class="form-control" placeholder="Key名称"/>
 	        <button class="btn" onclick="exists()">判断存在</button>
@@ -91,11 +91,48 @@
             <input id="hdel-list" class="form-control" placeholder="要从Hash中的键 按空格分隔"/>
             <button class="btn" onclick="hdel()">Hash删除</button>
         </div>
-                
-	    <div class="card mt-4">
-	        <div id="result" class="card-body"></div>
-	    </div>
+        
+        <div class="input-group mt-4">
+            <input id="sadd" class="form-control" placeholder="Key名称"/>
+            <input id="sadd-list" class="form-control" placeholder="要存入Set中的值 按空格分隔"/>
+            <button class="btn" onclick="sadd()">存入Set</button>
+        </div>
+        <div class="input-group mt-2">
+            <input id="smembers" class="form-control" placeholder="Key名称"/>
+            <button class="btn" onclick="smembers()">列出Set</button>
+        </div>
+        <div class="input-group mt-2">
+            <input id="sinter" class="form-control" placeholder="Key列表 按空格分隔"/>
+            <button class="btn" onclick="sinter()">Set交集</button>
+        </div>
+        <div class="input-group mt-2">
+            <input id="sunion" class="form-control" placeholder="Key列表 按空格分隔"/>
+            <button class="btn" onclick="sunion()">Set并集</button>
+        </div>
+        <div class="input-group mt-2">
+            <input id="srem" class="form-control" placeholder="Key名称"/>
+            <input id="srem-list" class="form-control" placeholder="要从Set中的值 按空格分隔"/>
+            <button class="btn" onclick="srem()">Set删除</button>
+        </div>
+        <div class="input-group mt-2">
+            <input id="zadd" class="form-control" placeholder="Key名称"/>
+            <input id="zadd-set" class="form-control" placeholder="要存入ZSet中的分数和值 按空格分隔"/>
+            <button class="btn" onclick="zadd()">存入有序Set</button>
+        </div>
+        <div class="input-group mt-2">
+            <input id="zrange" class="form-control" placeholder="Key名称"/>
+            <input id="zrange-start" class="form-control" placeholder="起点" type="number"/>
+            <input id="zrange-end" class="form-control" placeholder="终点" type="number"/>
+            <button class="btn" onclick="zrange()">列出有序Set</button>
+        </div>
+        
     </div>
+    <nav class="navbar navbar-dark bg-dark fixed-bottom">
+        <div class="container">
+            <div class="navbar-brand">结果</div>
+            <div id="result" class="text-white"></div>
+        </div>
+    </nav>
     
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
