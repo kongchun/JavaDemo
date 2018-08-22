@@ -1,0 +1,34 @@
+.nav {
+    height: 50px;
+    background-color: #37474F;
+    color: #ffffff;
+    line-height: 50px;
+    font-size: 20px;
+    text-align: center;
+    border: none;
+}
+.west-area {
+    width: 20%;
+}
+#menu {
+    width: 100% !important;
+}
+.center-area,#users,#settings {
+    height: 100%;
+}
+#settings{
+    display: none;
+}
+.panel {
+	width: 315px;
+}
+.layout-panel-center .panel-body {
+    padding: 20px;
+}
+.row {
+    display: block;
+    margin-bottom: 10px;
+}
+.submit-row {
+    text-align: center;
+}
