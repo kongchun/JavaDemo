@@ -21,9 +21,9 @@ import com.kedacom.cxf.model.User;
  * @author lihongguang
  * @date 2018年8月23日
  */
-@Path("/userSerivce")
-@Produces(MediaType.TEXT_XML)
-@Consumes(MediaType.TEXT_XML)
+@Path("/userService")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public interface UserService {
 
 	@GET

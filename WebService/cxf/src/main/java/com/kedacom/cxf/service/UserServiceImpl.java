@@ -72,6 +72,8 @@ public class UserServiceImpl implements UserService {
 			return Response.notModified().build();
 		}
 		users.put(user.getId(), user);
+		Long logid = System.currentTimeMillis();
+		logs.put(logid, new Log(logid, user.getId(), "Update User"));
 		return Response.ok().build();
 	}
 
@@ -86,6 +88,8 @@ public class UserServiceImpl implements UserService {
 			return Response.notModified().build();
 		}
 		users.remove(id);
+		Long logid = System.currentTimeMillis();
+		logs.put(logid, new Log(logid, id, "Delete User"));
 		return Response.ok().build();
 	}
 

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.kedacom.cxf.service.UserService;
 
 /**
@@ -35,11 +36,17 @@ public class RootConfig {
 	}
 
 	@Bean
-	public Server server(SpringBus cxf) {
+	JacksonJsonProvider jacksonJsonProvider() {
+		return new JacksonJsonProvider();
+	}
+
+	@Bean
+	public Server server(SpringBus cxf, JacksonJsonProvider jacksonJsonProvider) {
 		JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
 		sf.setBus(cxf);
 		sf.setServiceBean(userService);
 		sf.setAddress("/rest");
+		sf.setProvider(jacksonJsonProvider);
 		return sf.create();
 	}
 	/*

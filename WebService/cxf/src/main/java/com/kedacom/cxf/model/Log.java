@@ -20,6 +20,16 @@ public class Log {
 	private Integer userid;
 	private String description;
 
+	public Log() {
+
+	}
+
+	public Log(Long id, Integer userid, String description) {
+		this.id = id;
+		this.userid = userid;
+		this.description = description;
+	}
+
 	/** @return the id */
 	public Long getId() {
 		return id;
