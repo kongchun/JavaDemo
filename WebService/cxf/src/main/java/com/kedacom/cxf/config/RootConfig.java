@@ -6,16 +6,15 @@
 
 package com.kedacom.cxf.config;
 
-import javax.xml.ws.Endpoint;
-
 import org.apache.cxf.bus.spring.SpringBus;
-import org.apache.cxf.jaxws.EndpointImpl;
+import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.kedacom.cxf.service.HelloWorld;
+import com.kedacom.cxf.service.UserService;
 
 /**
  * (用一句话描述类的主要功能)
@@ -28,7 +27,7 @@ import com.kedacom.cxf.service.HelloWorld;
 public class RootConfig {
 
 	@Autowired
-	private HelloWorld helloWord;
+	UserService userService;
 
 	@Bean
 	public SpringBus cxf() {
@@ -36,9 +35,17 @@ public class RootConfig {
 	}
 
 	@Bean
-	public Endpoint endpoint(SpringBus cxf) {
-		EndpointImpl endpoint = new EndpointImpl(cxf, helloWord);
-		endpoint.publish("/hello");
-		return endpoint;
+	public Server server(SpringBus cxf) {
+		JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
+		sf.setBus(cxf);
+		sf.setServiceBean(userService);
+		sf.setAddress("/rest");
+		return sf.create();
 	}
+	/*
+	 * @Autowired private HelloWorld helloWord;
+	 * @Bean public Endpoint endpoint(SpringBus cxf) { EndpointImpl endpoint =
+	 * new EndpointImpl(cxf, helloWord); endpoint.publish("/hello"); return
+	 * endpoint; }
+	 */
 }
