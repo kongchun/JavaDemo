@@ -50,18 +50,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 * @see com.kedacom.cxf.service.UserService#postLog(com.kedacom.cxf.model.Log)
-	 */
-
-	@Override
-	public Response postLog(Log log) {
-		Long id = System.currentTimeMillis();
-		log.setId(id);
-		logs.put(id, log);
-		return Response.ok().build();
-	}
-
-	/**
 	 * @see com.kedacom.cxf.service.UserService#putUser(com.kedacom.cxf.model.User)
 	 */
 
