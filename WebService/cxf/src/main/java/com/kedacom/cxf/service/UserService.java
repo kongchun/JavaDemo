@@ -25,19 +25,19 @@ import com.kedacom.cxf.model.User;
 @Consumes(MediaType.APPLICATION_JSON)
 public interface UserService {
 
-	@GET
-	@Path("/getUser/{id}")
-	public User getUser(@PathParam("id") Integer id);
+    @GET
+    @Path("/getUser/{id}")
+    public User getUser(@PathParam("id") Integer id);
 
-	@PUT
-	@Path("/putUser")
-	public Response putUser(User user);
+    @PUT
+    @Path("/putUser")
+    public Response putUser(User user);
 
-	@DELETE
-	@Path("/deleteUser/{id}")
-	public Response deleteUser(@PathParam("id") Integer id);
+    @DELETE
+    @Path("/deleteUser/{id}")
+    public Response deleteUser(@PathParam("id") Integer id);
 
-	@GET
-	@Path("/getLogs")
-	public Collection<Log> getLogs();
+    @GET
+    @Path("/getLogs")
+    public Collection<Log> getLogs();
 }

@@ -10,27 +10,35 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "user")
 public class User {
 
-	private Integer id;
-	private String name;
+    private Integer id;
+    private String name;
 
-	/** @return the id */
-	public Integer getId() {
-		return id;
-	}
+    public User(){
 
-	/** @param id the id to set */
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    }
+    public User(Integer id, String name){
+        this.id = id;
+        this.name = name;
+    }
 
-	/** @return the name */
-	public String getName() {
-		return name;
-	}
+    /** @return the id */
+    public Integer getId() {
+        return id;
+    }
 
-	/** @param name the name to set */
-	public void setName(String name) {
-		this.name = name;
-	}
+    /** @param id the id to set */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /** @return the name */
+    public String getName() {
+        return name;
+    }
+
+    /** @param name the name to set */
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

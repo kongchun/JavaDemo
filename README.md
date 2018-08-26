@@ -4,4 +4,4 @@
 2. Flyway & Quartz
 3. RabbitMQ
 4. Redis
-5. Web Service  -- under developing
+5. Web Service
