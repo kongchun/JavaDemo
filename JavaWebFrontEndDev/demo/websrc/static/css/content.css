@@ -7,28 +7,38 @@
     text-align: center;
     border: none;
 }
+
 .west-area {
     width: 20%;
 }
+
 #menu {
     width: 100% !important;
 }
-.center-area,#users,#settings {
+
+.center-area,
+#users,
+#settings {
     height: 100%;
 }
-#settings{
+
+#settings {
     display: none;
 }
+
 .panel {
-	width: 315px;
+    width: 315px;
 }
+
 .layout-panel-center .panel-body {
     padding: 20px;
 }
+
 .row {
     display: block;
     margin-bottom: 10px;
 }
+
 .submit-row {
     text-align: center;
 }

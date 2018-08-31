@@ -1,32 +1,40 @@
 html {
-    height: 100%;
+  height: 100%;
 }
+
 body {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to bottom right, #E1F5FE, #FAFAFA);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom right, #E1F5FE, #FAFAFA);
 }
+
 .panel-container {
-    width: 315px;
+  width: 315px;
 }
+
 .panel-body {
-    padding: 20px;
+  padding: 20px;
 }
+
 .row {
-    display: block;
-    margin-bottom: 10px;
+  display: block;
+  margin-bottom: 10px;
 }
+
 .submit-row {
-    text-align: center;
+  text-align: center;
 }
+
 .panel {
-    width: 315px;
+  width: 315px;
 }
+
 #register-panel {
-    display: none;
+  display: none;
 }
+
 .switcher {
-    margin-top: 10px;
+  margin-top: 10px;
 }

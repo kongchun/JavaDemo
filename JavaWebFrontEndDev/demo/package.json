@@ -1,0 +1,21 @@
+{
+    "name": "demo",
+    "version": "0.0.2",
+    "private": true,
+    "scripts": {},
+    "dependencies": {},
+    "devDependencies": {
+        "fs": "0.0.1-security",
+        "gulp": "^3.9.1",
+        "gulp-clean-css": "^3.10.0",
+        "gulp-htmlmin": "^4.0.0",
+        "gulp-if": "^2.0.2",
+        "gulp-rename": "^1.4.0",
+        "gulp-smushit": "^1.2.0",
+        "gulp-uglify-es": "^1.0.4",
+        "run-sequence": "^2.2.1",
+        "stream-combiner2": "^1.1.1",
+        "through2": "^2.0.3",
+        "underscore": "^1.9.1"
+    }
+}

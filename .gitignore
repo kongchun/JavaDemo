@@ -1,8 +1,9 @@
 .metadata/
 .settings/
 .recommenders/
-target/
 Servers/
+target/
+node_modules/
 .classpath
 .project
 .factorypath
