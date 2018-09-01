@@ -16,6 +16,7 @@
 		<aspectj.version>1.9.1</aspectj.version>
 		<log4j.version>2.11.1</log4j.version>
 		<security.version>5.0.7.RELEASE</security.version>
+		<tomcat.home>D:\apache-tomcat-vscode\apache-tomcat-9.0.10</tomcat.home>
 	</properties>
 	<dependencies>
 
@@ -152,15 +153,17 @@
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.2.2</version>
-				<configuration>
-					<warSourceDirectory>${basedir}/webapp</warSourceDirectory>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <warSourceDirectory>${basedir}/webapp</warSourceDirectory>
+                    <webappDirectory>${tomcat.home}/webapps/${project.artifactId}</webappDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

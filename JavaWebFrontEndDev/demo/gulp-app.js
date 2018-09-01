@@ -63,7 +63,7 @@ function revCollector(opts) {
                             let [modTime, suffix] = checkFile(file, srcArry[i], r, opts);
                             if (modTime) {
                                 let regexp = '\\.' + suffix.replace('.', '\\.') + '((\\?[a-z]|\\_|\\.)=([0-9a-zA-Z._]*))*';
-                                if (-1 === suffix.indexOf('min.')) {
+                                if ((-1) === suffix.indexOf('min.') && (-1 !== suffix.indexOf('js') || -1 !== suffix.indexOf('css'))) {
                                     suffix = 'min.' + suffix;
                                 }
                                 let repReg = new RegExp(regexp, 'g');

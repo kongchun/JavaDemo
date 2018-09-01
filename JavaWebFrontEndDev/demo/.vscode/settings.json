@@ -2,4 +2,5 @@
     "eslint.options": {
         "configFile": ".eslintrc.js"
     },
+    "java.configuration.updateBuildConfiguration": "automatic",
 }

@@ -74,7 +74,9 @@ gulp.task('revCSS', function() {
     let combined = combiner.obj([
         gulp.src(config.css.SRC)
         .pipe(revCollector(config.REVConifg))
-        .pipe(gulpif(isNotMinified, cleanCSS()))
+        .pipe(gulpif(isNotMinified, cleanCSS({
+            rebase: false,
+        })))
         .pipe(gulpif(isNotMinified, rename({
             suffix: '.min',
         })))
