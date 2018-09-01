@@ -1,5 +1,4 @@
 'use strict';
-let combiner = require('stream-combiner2'); // 错误监听
 let gulp = require('gulp');
 let gulpif = require('gulp-if'); // gul条件判断
 let rename = require('gulp-rename'); // 重命名
@@ -9,6 +8,11 @@ let htmlmin = require('gulp-htmlmin'); // 压缩html
 let revCollector = require('./gulp-app.js'); // 修改版本号
 let smushit = require('gulp-smushit'); // 压缩图片
 let cleanCSS = require('gulp-clean-css'); // 压缩css文件
+let combiner = require('stream-combiner2');
+let browserify = require('browserify');
+let source = require('vinyl-source-stream');
+let buffer = require('vinyl-buffer');
+let sourcemaps = require('gulp-sourcemaps');
 
 let DEST = './webapp/';
 let SRC = './websrc/';
@@ -61,39 +65,39 @@ let isNotMinified = function(f) {
 
 gulp.task('revImg', function() {
     let combined = combiner.obj([
-        gulp.src(config.img.SRC)
-        .pipe(gulpif(config.img.minFlag, smushit({
+        gulp.src(config.img.SRC),
+        gulpif(config.img.minFlag, smushit({
             verbose: true,
-        })))
-        .pipe(gulp.dest(DEST)),
+        })),
+        gulp.dest(DEST),
     ]);
     combined.on('error', console.error.bind(console));
     return combined;
 });
 gulp.task('revCSS', function() {
     let combined = combiner.obj([
-        gulp.src(config.css.SRC)
-        .pipe(revCollector(config.REVConifg))
-        .pipe(gulpif(isNotMinified, cleanCSS({
+        gulp.src(config.css.SRC),
+        revCollector(config.REVConifg),
+        gulpif(isNotMinified, cleanCSS({
             rebase: false,
-        })))
-        .pipe(gulpif(isNotMinified, rename({
+        })),
+        gulpif(isNotMinified, rename({
             suffix: '.min',
-        })))
-        .pipe(gulp.dest(DEST)),
+        })),
+        gulp.dest(DEST),
     ]);
     combined.on('error', console.error.bind(console));
     return combined;
 });
 gulp.task('revJS', function() {
     let combined = combiner.obj([
-        gulp.src(config.js.SRC)
-        .pipe(revCollector(config.REVConifg))
-        .pipe(gulpif(isNotMinified, uglify()))
-        .pipe(gulpif(isNotMinified, rename({
+        gulp.src(config.js.SRC),
+        revCollector(config.REVConifg),
+        gulpif(isNotMinified, uglify()),
+        gulpif(isNotMinified, rename({
             suffix: '.min',
-        })))
-        .pipe(gulp.dest(DEST)),
+        })),
+        gulp.dest(DEST),
     ]);
     combined.on('error', console.error.bind(console));
     return combined;
@@ -110,18 +114,37 @@ gulp.task('revHtml', function() {
         minifyCSS: true,
     };
     let combined = combiner.obj([
-        gulp.src(config.html.SRC)
-        .pipe(revCollector(config.REVConifg))
-        .pipe(gulpif(config.html.minFlag, htmlmin(options)))
-        .pipe(gulp.dest(DEST)),
+        gulp.src(config.html.SRC),
+        revCollector(config.REVConifg),
+        gulpif(config.html.minFlag, htmlmin(options)),
+        gulp.dest(DEST),
     ]);
     combined.on('error', console.error.bind(console));
     return combined;
 });
 gulp.task('copyOthers', function() {
     let combined = combiner.obj([
-        gulp.src(config.others.SRC)
-        .pipe(gulp.dest(DEST)),
+        gulp.src(config.others.SRC),
+        gulp.dest(DEST),
+    ]);
+    combined.on('error', console.error.bind(console));
+    return combined;
+});
+gulp.task('browserify', function() {
+    let b = browserify({
+        entries: './websrc/static/js/content.js',
+        debug: true,
+    });
+    let combined = combiner.obj([
+        b.bundle(),
+        source('content.js'),
+        buffer(),
+        sourcemaps.init({
+            loadMaps: true,
+        }),
+        uglify(),
+        sourcemaps.write('./'),
+        gulp.dest('./dist/js/'),
     ]);
     combined.on('error', console.error.bind(console));
     return combined;

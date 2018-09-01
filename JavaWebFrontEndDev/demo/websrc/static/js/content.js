@@ -1,3 +1,4 @@
+let $ = require('jquery');
 $(function() {
     let usersPage = $('#users');
     let settingsPage = $('#settings');

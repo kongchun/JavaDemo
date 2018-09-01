@@ -1,3 +1,4 @@
+let $ = require('jquery');
 $(function() {
     let registerPanel = $('#register-panel');
     let loginPanel = $('#login-panel');
