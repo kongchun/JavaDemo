@@ -16,7 +16,7 @@
 		<aspectj.version>1.9.1</aspectj.version>
 		<log4j.version>2.11.1</log4j.version>
 		<security.version>5.0.7.RELEASE</security.version>
-		<tomcat.home>D:\apache-tomcat-vscode\apache-tomcat-9.0.10</tomcat.home>
+		<tomcat.home>D:\apache-tomcat-vscode\apache-tomcat-9.0.11</tomcat.home>
 	</properties>
 	<dependencies>
 

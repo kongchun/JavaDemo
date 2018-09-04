@@ -10,7 +10,7 @@
     <title>主页</title>
     <%@ include file="/inc/common/page_base_css.jsp"%>
     <%@ include file="/inc/plugins/plugin_easyui.jsp"%>
-    <link rel="stylesheet" type="text/css" href="${RESOUCE_STATIC_URL}/css/content.css">
+    <link rel="stylesheet" type="text/css" href="${RESOURCE_STATIC_URL}/css/content.css">
 </head>
 
 <body class="easyui-layout">
@@ -59,7 +59,7 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="${RESOUCE_STATIC_URL}/js/content.js"></script>
+    <script type="text/javascript" src="${RESOURCE_STATIC_URL}/js/content.js"></script>
 </body>
 
 </html>

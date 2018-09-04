@@ -4,6 +4,7 @@
 let _ = require('underscore');
 let through = require('through2');
 let fs = require('fs');
+let packageJson = require('./package.json');
 
 let config = {
     reg: {
@@ -60,14 +61,20 @@ function revCollector(opts) {
                 for (let i = 0; i < srcArry.length; i++) {
                     changes.forEach(function(r) {
                         if (r.reg.test(srcArry[i])) {
-                            let [modTime, suffix] = checkFile(file, srcArry[i], r, opts);
+                            let [modTime, suffix, isMin, libVer] = checkFile(file, srcArry[i], r, opts);
+                            let vStr = '';
                             if (modTime) {
-                                let regexp = '\\.' + suffix.replace('.', '\\.') + '((\\?[a-z]|\\_|\\.)=([0-9a-zA-Z._]*))*';
-                                if ((-1) === suffix.indexOf('min.') && (-1 !== suffix.indexOf('js') || -1 !== suffix.indexOf('css'))) {
+                                let regexp = '\\.' + suffix + '((\\?[a-z]|\\_|\\.)=([0-9a-zA-Z._]*))*';
+                                if ('' !== libVer) {
+                                    vStr = libVer;
+                                } else {
+                                    vStr = opts.vStr;
+                                }
+                                if ((!isMin) && ('' === libVer) && (-1 !== suffix.indexOf('js') || -1 !== suffix.indexOf('css'))) {
                                     suffix = 'min.' + suffix;
                                 }
                                 let repReg = new RegExp(regexp, 'g');
-                                srcArry[i] = srcArry[i].replace(repReg, '.' + suffix + '?v=' + opts.vStr + modTime);
+                                srcArry[i] = srcArry[i].replace(repReg, '.' + suffix + '?v=' + vStr + modTime);
                             }
                         }
                     });
@@ -97,6 +104,8 @@ function checkFile(file, line, r, opts) {
     let relativePath = exec[2];
     let modTime = '';
     let suffix = '';
+    let isMin = false;
+    let libVer = '';
     if (relativePath) {
         let lastTimeV = relativePath.split('?')[1];
         relativePath = relativePath.split('?')[0];
@@ -104,7 +113,11 @@ function checkFile(file, line, r, opts) {
         let preSuffix = relativePath.substr(relativePath.lastIndexOf('.', lastIndexOfDot - 1) + 1, 4);
         suffix = relativePath.substr(lastIndexOfDot + 1);
         if ('min.' === preSuffix) {
-            suffix = preSuffix + suffix;
+            isMin = true;
+        }
+        if (-1 !== relativePath.indexOf('JLIB')) {
+            let dependencies = packageJson.dependencies;
+            libVer = dependencies[relativePath.split('/')[1]] + '.';
         }
         let reg = /\$\{([a-zA-Z0-9\_\.])*\}/;
         if (!reg.test(relativePath)) {
@@ -126,6 +139,6 @@ function checkFile(file, line, r, opts) {
     } else {
         console.log(exec);
     }
-    return [modTime, suffix];
+    return [modTime, suffix, isMin, libVer];
 }
 module.exports = revCollector;

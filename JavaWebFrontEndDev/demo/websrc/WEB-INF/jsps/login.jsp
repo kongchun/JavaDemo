@@ -10,7 +10,7 @@
     <title>登录</title>
     <%@ include file="/inc/common/page_base_css.jsp"%>
     <%@ include file="/inc/plugins/plugin_easyui.jsp"%>
-    <link rel="stylesheet" type="text/css" href="${RESOUCE_STATIC_URL}/css/login.css">
+    <link rel="stylesheet" type="text/css" href="${RESOURCE_STATIC_URL}/css/login.css">
 </head>
 
 <body>
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="${RESOUCE_STATIC_URL}/js/login.js"></script>
+    <script type="text/javascript" src="${RESOURCE_STATIC_URL}/js/login.js"></script>
 </body>
 
 </html>

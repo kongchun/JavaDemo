@@ -9,10 +9,7 @@ let revCollector = require('./gulp-app.js'); // 修改版本号
 let smushit = require('gulp-smushit'); // 压缩图片
 let cleanCSS = require('gulp-clean-css'); // 压缩css文件
 let combiner = require('stream-combiner2');
-let browserify = require('browserify');
-let source = require('vinyl-source-stream');
-let buffer = require('vinyl-buffer');
-let sourcemaps = require('gulp-sourcemaps');
+let packageJson = require('./package.json');
 
 let DEST = './webapp/';
 let SRC = './websrc/';
@@ -40,11 +37,15 @@ let config = {
     others: {
         SRC: SRC + '/**/*.!(png|jpg|gif|css|js|html|jsp)',
     },
+    libs: {
+        DEST: DEST + 'static/jlib/',
+    },
     REVConifg: { // 文件要更换版本号需要的配置项
         vStr: '5.2.', // 版本号前缀
         pathRep: {
-            '${RESOUCE_STATIC_URL}': './websrc/static',
-            '${RESOUCE_LANGUAGE}': 'zh_CN',
+            '${RESOURCE_STATIC_URL}': './websrc/static',
+            '${RESOURCE_LANGUAGE}': 'zh_CN',
+            '${RESOURCE_JLIB_URL}': './node_modules',
         },
     },
     TASK_seq: [ // 指定执行任务及其顺序
@@ -52,6 +53,7 @@ let config = {
         'revCSS',
         'revJS',
         'revHtml',
+        'copyLibs',
         'copyOthers',
     ],
 };
@@ -130,21 +132,19 @@ gulp.task('copyOthers', function() {
     combined.on('error', console.error.bind(console));
     return combined;
 });
-gulp.task('browserify', function() {
-    let b = browserify({
-        entries: './websrc/static/js/content.js',
-        debug: true,
-    });
+gulp.task('copyLibs', function() {
+    let dependencies = packageJson.dependencies;
+    let src = [];
+    for (let key in dependencies) {
+        if (dependencies.hasOwnProperty(key)) {
+            src.push('./node_modules/' + key + '/dist/**/*');
+        }
+    }
     let combined = combiner.obj([
-        b.bundle(),
-        source('content.js'),
-        buffer(),
-        sourcemaps.init({
-            loadMaps: true,
+        gulp.src(src, {
+            base: './node_modules/',
         }),
-        uglify(),
-        sourcemaps.write('./'),
-        gulp.dest('./dist/js/'),
+        gulp.dest(config.libs.DEST),
     ]);
     combined.on('error', console.error.bind(console));
     return combined;
