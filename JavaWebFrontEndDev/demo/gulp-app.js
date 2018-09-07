@@ -117,7 +117,8 @@ function checkFile(file, line, r, opts) {
         }
         if (-1 !== relativePath.indexOf('JLIB')) {
             let dependencies = packageJson.dependencies;
-            libVer = dependencies[relativePath.split('/')[1]] + '.';
+            let packageStr = relativePath.substr(relativePath.indexOf('/') + 1);
+            libVer = dependencies[packageStr.split('/dist')[0]] + '.';
         }
         let reg = /\$\{([a-zA-Z0-9\_\.])*\}/;
         if (!reg.test(relativePath)) {

@@ -72,3 +72,5 @@ $.extend($.fn.validatebox.defaults.rules, {
         message: '输入不一致。',
     },
 });
+
+// 修改

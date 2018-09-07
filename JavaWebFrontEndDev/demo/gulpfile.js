@@ -10,6 +10,11 @@ let smushit = require('gulp-smushit'); // 压缩图片
 let cleanCSS = require('gulp-clean-css'); // 压缩css文件
 let combiner = require('stream-combiner2');
 let packageJson = require('./package.json');
+let babel = require('gulp-babel');
+let browserify = require('browserify');
+let buffer = require('vinyl-buffer');
+let babelify = require('babelify');
+let tap = require('gulp-tap');
 
 let DEST = './webapp/';
 let SRC = './websrc/';
@@ -95,7 +100,14 @@ gulp.task('revJS', function() {
     let combined = combiner.obj([
         gulp.src(config.js.SRC),
         revCollector(config.REVConifg),
-        gulpif(isNotMinified, uglify()),
+        babel({
+            presets: [
+                ['@babel/env', {
+                    'targets': 'ie >= 9, Firefox ESR, last 2 versions',
+                }],
+            ],
+        }),
+        uglify(),
         gulpif(isNotMinified, rename({
             suffix: '.min',
         })),
@@ -124,7 +136,7 @@ gulp.task('revHtml', function() {
     combined.on('error', console.error.bind(console));
     return combined;
 });
-gulp.task('copyOthers', function() {
+gulp.task('copyOthers', () => {
     let combined = combiner.obj([
         gulp.src(config.others.SRC),
         gulp.dest(DEST),
@@ -132,7 +144,7 @@ gulp.task('copyOthers', function() {
     combined.on('error', console.error.bind(console));
     return combined;
 });
-gulp.task('copyLibs', function() {
+gulp.task('copyLibs', () => {
     let dependencies = packageJson.dependencies;
     let src = [];
     for (let key in dependencies) {
@@ -149,7 +161,48 @@ gulp.task('copyLibs', function() {
     combined.on('error', console.error.bind(console));
     return combined;
 });
-
+gulp.task('testBabel', () => {
+    let combined = combiner.obj([
+        gulp.src(config.js.SRC),
+        babel({
+            presets: [
+                ['@babel/env', {
+                    'targets': 'ie >= 9, Firefox ESR, last 2 versions',
+                }],
+            ],
+            plugins: ['@babel/plugin-transform-runtime'],
+        }),
+        gulp.dest(DEST),
+    ]);
+    combined.on('error', console.error.bind(console));
+    return combined;
+});
+gulp.task('browserify', () => {
+    let combined = combiner.obj([
+        gulp.src(config.js.SRC, {
+            read: false,
+        }),
+        tap((file) => {
+            file.contents = browserify({
+                entries: file.path,
+                transform: [babelify.configure({
+                    presets: [
+                        ['@babel/env', {
+                            'targets': {
+                                'ie': '9',
+                            },
+                        }],
+                    ],
+                    plugins: ['@babel/plugin-transform-runtime'],
+                })],
+            }).bundle();
+        }),
+        buffer(),
+        gulp.dest(DEST),
+    ]);
+    combined.on('error', console.error.bind(console));
+    return combined;
+});
 gulp.task('dev', function(done) {
     runSequence(
         config.TASK_seq,

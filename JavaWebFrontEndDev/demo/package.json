@@ -4,24 +4,31 @@
     "private": true,
     "scripts": {},
     "dependencies": {
+        "@babel/polyfill": "7.0.0",
         "jquery": "3.3.1",
         "jquery-easyui-test": "1.6.2"
     },
     "devDependencies": {
-        "@babel/cli": "^7.0.0",
         "@babel/core": "^7.0.0",
+        "@babel/plugin-transform-runtime": "^7.0.0",
         "@babel/preset-env": "^7.0.0",
+        "@babel/runtime": "^7.0.0",
+        "babelify": "^10.0.0",
+        "browserify": "^16.2.2",
         "fs": "0.0.1-security",
         "gulp": "^3.9.1",
+        "gulp-babel": "^8.0.0",
         "gulp-clean-css": "^3.10.0",
         "gulp-htmlmin": "^4.0.0",
         "gulp-if": "^2.0.2",
         "gulp-rename": "^1.4.0",
         "gulp-smushit": "^1.2.0",
+        "gulp-tap": "^1.0.1",
         "gulp-uglify-es": "^1.0.4",
         "run-sequence": "^2.2.1",
         "stream-combiner2": "^1.1.1",
         "through2": "^2.0.3",
-        "underscore": "^1.9.1"
+        "underscore": "^1.9.1",
+        "vinyl-buffer": "^1.0.1"
     }
 }
