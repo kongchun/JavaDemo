@@ -1,0 +1,21 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "compile-java",
+            "type": "shell",
+            "command": "mvn clean compile",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "compile-c",
+            "type": "shell",
+            "command": "gcc .\\src\\main\\c\\HelloWorld.c -I${env:JAVA_HOME}\\include -I ${env:JAVA_HOME}\\include\\win32 -fPIC -shared -o .\\src\\main\\c\\HelloWorld.dll",
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}

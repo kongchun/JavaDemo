@@ -5,4 +5,4 @@
 3. RabbitMQ
 4. Redis
 5. Web Service
-6. JNI -under developing
+6. JNI
