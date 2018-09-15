@@ -9,12 +9,12 @@ let revCollector = require('./gulp-app.js'); // 修改版本号
 let smushit = require('gulp-smushit'); // 压缩图片
 let cleanCSS = require('gulp-clean-css'); // 压缩css文件
 let combiner = require('stream-combiner2');
-let packageJson = require('./package.json');
 let babel = require('gulp-babel');
 let browserify = require('browserify');
 let buffer = require('vinyl-buffer');
 let babelify = require('babelify');
 let tap = require('gulp-tap');
+let jlibInclude = require('./jlib-include.json');
 
 let DEST = './webapp/';
 let SRC = './websrc/';
@@ -33,14 +33,15 @@ let config = {
         SRC: SRC + '/**/*.js', // js文件改版本号的源目录
         // DEST: DEST, //js文件输出的目的目录
         // DEST_MIN: DEST //压缩js的min文件输出目录
+        compileFlag: false,
     },
     html: {
-        SRC: SRC + '/**/*.+(html|jsp)', // html文件改版本号的源目录
+        SRC: SRC + '/**/*.+(html|jsp|htm)', // html文件改版本号的源目录
         // DEST: DEST, //html文件输出的目的目录
         minFlag: false, // html文件是否压缩
     },
     others: {
-        SRC: SRC + '/**/*.!(png|jpg|gif|css|js|html|jsp)',
+        SRC: SRC + '/**/*.!(png|jpg|gif|css|js|html|jsp|htm)',
     },
     libs: {
         DEST: DEST + 'static/jlib/',
@@ -87,6 +88,7 @@ gulp.task('revCSS', function() {
         revCollector(config.REVConifg),
         gulpif(isNotMinified, cleanCSS({
             rebase: false,
+            inline: false,
         })),
         gulpif(isNotMinified, rename({
             suffix: '.min',
@@ -100,13 +102,13 @@ gulp.task('revJS', function() {
     let combined = combiner.obj([
         gulp.src(config.js.SRC),
         revCollector(config.REVConifg),
-        babel({
+        gulpif(config.js.compileFlag, babel({
             presets: [
                 ['@babel/env', {
                     'targets': 'ie >= 9, Firefox ESR, last 2 versions',
                 }],
             ],
-        }),
+        })),
         uglify(),
         gulpif(isNotMinified, rename({
             suffix: '.min',
@@ -145,11 +147,12 @@ gulp.task('copyOthers', () => {
     return combined;
 });
 gulp.task('copyLibs', () => {
-    let dependencies = packageJson.dependencies;
+    let dependencies = jlibInclude;
     let src = [];
     for (let key in dependencies) {
         if (dependencies.hasOwnProperty(key)) {
-            src.push('./node_modules/' + key + '/dist/**/*');
+            src.push('./node_modules/' + key + '/' + jlibInclude[key] +
+                '/**/*');
         }
     }
     let combined = combiner.obj([

@@ -64,13 +64,13 @@ function revCollector(opts) {
                             let [modTime, suffix, isMin, libVer] = checkFile(file, srcArry[i], r, opts);
                             let vStr = '';
                             if (modTime) {
-                                let regexp = '\\.' + suffix + '((\\?[a-z]|\\_|\\.)=([0-9a-zA-Z._]*))*';
+                                let regexp = '\\.' + suffix + '(?!\\/)((\\?[a-z]|\\_|\\.)=([0-9a-zA-Z._]*))*';
                                 if ('' !== libVer) {
                                     vStr = libVer;
                                 } else {
                                     vStr = opts.vStr;
                                 }
-                                if ((!isMin) && ('' === libVer) && (-1 !== suffix.indexOf('js') || -1 !== suffix.indexOf('css'))) {
+                                if ((!isMin) && ('' === libVer) && (suffix.includes('js') || suffix.includes('css'))) {
                                     suffix = 'min.' + suffix;
                                 }
                                 let repReg = new RegExp(regexp, 'g');
@@ -115,10 +115,14 @@ function checkFile(file, line, r, opts) {
         if ('min.' === preSuffix) {
             isMin = true;
         }
-        if (-1 !== relativePath.indexOf('JLIB')) {
+        if (relativePath.includes('JLIB')) {
             let dependencies = packageJson.dependencies;
-            let packageStr = relativePath.substr(relativePath.indexOf('/') + 1);
-            libVer = dependencies[packageStr.split('/dist')[0]] + '.';
+            let pathArray = relativePath.split('/');
+            let packageName = pathArray[1];
+            if (packageName.startsWith('@')) {
+                packageName = packageName + '/' + pathArray[2];
+            }
+            libVer = dependencies[packageName] + '.';
         }
         let reg = /\$\{([a-zA-Z0-9\_\.])*\}/;
         if (!reg.test(relativePath)) {
@@ -132,7 +136,7 @@ function checkFile(file, line, r, opts) {
             modTime = new Date(statInfo.mtime).getTime();
         } catch (e) {
             modTime = false;
-            console.log('文件不存在' + relativePath);
+            console.log('文件不存在：' + relativePath + ' 原始：' + exec[2]);
         }
         if (lastTimeV && (lastTimeV.substr(lastTimeV.lastIndexOf('.') + 1) == modTime)) {
             modTime = false;
