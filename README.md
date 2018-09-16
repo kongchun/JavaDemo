@@ -6,3 +6,4 @@
 4. Redis
 5. Web Service
 6. JNI
+7. WebSocket --under developing
