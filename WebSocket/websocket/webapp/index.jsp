@@ -10,17 +10,14 @@
 	<input id="user" placeholder="用户名" />
 	<button id="btn-login">登录</button>
 	<button id="btn-logout">下线</button>
-	<br />
-	<br />
+
 	<input id="text" type="text" placeholder="消息内容" />
-	<br />
-	<br />
+
 	<input id="to" type="text" placeholder="发送给" />
 	<button id="btn-send">发送</button>
-	<br />
-	<br />
+
 	<div id="message" style="background: lightgrey"></div>
-	<br />
+	
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript">
 	$(()=>{
