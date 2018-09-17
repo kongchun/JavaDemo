@@ -7,3 +7,4 @@
 5. Web Service
 6. JNI
 7. WebSocket
+8. Thrift -developing
