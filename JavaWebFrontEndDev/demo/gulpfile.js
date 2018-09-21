@@ -15,6 +15,7 @@ let buffer = require('vinyl-buffer');
 let babelify = require('babelify');
 let tap = require('gulp-tap');
 let jlibInclude = require('./jlib-include.json');
+let source = require('vinyl-source-stream');
 
 let DEST = './webapp/';
 let SRC = './websrc/';
@@ -33,7 +34,7 @@ let config = {
         SRC: SRC + '/**/*.js', // js文件改版本号的源目录
         // DEST: DEST, //js文件输出的目的目录
         // DEST_MIN: DEST //压缩js的min文件输出目录
-        compileFlag: false,
+        compileFlag: true,
     },
     html: {
         SRC: SRC + '/**/*.+(html|jsp|htm)', // html文件改版本号的源目录
@@ -187,19 +188,48 @@ gulp.task('browserify', () => {
         }),
         tap((file) => {
             file.contents = browserify({
-                entries: file.path,
-                transform: [babelify.configure({
-                    presets: [
-                        ['@babel/env', {
-                            'targets': {
-                                'ie': '9',
-                            },
-                        }],
-                    ],
-                    plugins: ['@babel/plugin-transform-runtime'],
-                })],
-            }).bundle();
+                    entries: file.path,
+                    transform: [babelify.configure({
+                        presets: [
+                            ['@babel/env', {
+                                'targets': {
+                                    'ie': '9',
+                                },
+                            }],
+                        ],
+                        plugins: [
+                            '@babel/plugin-transform-runtime',
+                        ],
+                    })],
+                })
+                .bundle();
         }),
+        buffer(),
+        gulp.dest(DEST),
+    ]);
+    combined.on('error', console.error.bind(console));
+    return combined;
+});
+gulp.task('test-browserify', () => {
+    let b = browserify({
+        entries: './websrc/static/js/test-babel.js',
+        transform: [babelify.configure({
+            presets: [
+                ['@babel/env', {
+                    'targets': {
+                        'ie': '9',
+                    },
+                }],
+            ],
+            plugins: [
+                '@babel/plugin-transform-runtime',
+            ],
+        })],
+        standalone: 'app',
+    });
+    let combined = combiner.obj([
+        b.bundle(),
+        source('app.js'),
         buffer(),
         gulp.dest(DEST),
     ]);
