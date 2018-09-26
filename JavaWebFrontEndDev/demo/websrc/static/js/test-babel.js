@@ -1,12 +1,14 @@
+require('core-js/es6/promise').default;
+
 function A(callback) {
-    setTimeout(function() {
+    setTimeout(function () {
         console.log("A");
         callback();
     }, 1000);
 }
 
 function B(callback) {
-    setTimeout(function() {
+    setTimeout(function () {
         console.log("B");
         callback();
     }, 500);

@@ -22,23 +22,18 @@ let SRC = './websrc/';
 let config = {
     img: {
         SRC: SRC + '/**/*.+(png|jpg|gif)', // 要压缩图片的源目录及类型
-        // DEST: DEST //压缩图片输出的目的目录
         minFlag: false,
     },
     css: {
         SRC: SRC + '/**/*.css', // css文件改版本号的源目录
         // DEST: DEST, //css文件输出的目的目录
-        // DEST_MIN: DEST //压缩css文件输出的目的目录
     },
     js: {
         SRC: SRC + '/**/*.js', // js文件改版本号的源目录
-        // DEST: DEST, //js文件输出的目的目录
-        // DEST_MIN: DEST //压缩js的min文件输出目录
         compileFlag: true,
     },
     html: {
         SRC: SRC + '/**/*.+(html|jsp|htm)', // html文件改版本号的源目录
-        // DEST: DEST, //html文件输出的目的目录
         minFlag: false, // html文件是否压缩
     },
     others: {
@@ -103,13 +98,24 @@ gulp.task('revJS', function() {
     let combined = combiner.obj([
         gulp.src(config.js.SRC),
         revCollector(config.REVConifg),
-        gulpif(config.js.compileFlag, babel({
-            presets: [
-                ['@babel/env', {
-                    'targets': 'ie >= 9, Firefox ESR, last 2 versions',
-                }],
-            ],
+        gulpif(config.js.compileFlag, tap((file) => {
+            file.contents = browserify({
+                entries: file.path,
+                transform: [babelify.configure({
+                    presets: [
+                        ['@babel/env', {
+                            'targets': {
+                                'ie': '9',
+                            },
+                        }],
+                    ],
+                    plugins: [
+                        '@babel/plugin-transform-runtime',
+                    ],
+                })],
+            }).bundle();
         })),
+        buffer(),
         uglify(),
         gulpif(isNotMinified, rename({
             suffix: '.min',
@@ -188,21 +194,20 @@ gulp.task('browserify', () => {
         }),
         tap((file) => {
             file.contents = browserify({
-                    entries: file.path,
-                    transform: [babelify.configure({
-                        presets: [
-                            ['@babel/env', {
-                                'targets': {
-                                    'ie': '9',
-                                },
-                            }],
-                        ],
-                        plugins: [
-                            '@babel/plugin-transform-runtime',
-                        ],
-                    })],
-                })
-                .bundle();
+                entries: file.path,
+                transform: [babelify.configure({
+                    presets: [
+                        ['@babel/env', {
+                            'targets': {
+                                'ie': '9',
+                            },
+                        }],
+                    ],
+                    plugins: [
+                        '@babel/plugin-transform-runtime',
+                    ],
+                })],
+            }).bundle();
         }),
         buffer(),
         gulp.dest(DEST),
