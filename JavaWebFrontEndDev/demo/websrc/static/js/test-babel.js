@@ -1,4 +1,4 @@
-require('core-js/es6/promise').default;
+//require('core-js/es6/promise').default;
 
 function A(callback) {
     setTimeout(function () {

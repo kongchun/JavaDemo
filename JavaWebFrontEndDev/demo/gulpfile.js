@@ -60,14 +60,14 @@ let config = {
     ],
 };
 
-let isNotMinified = function(f) {
+let isNotMinified = function (f) {
     if (f.path.endsWith('.min.js') || f.path.endsWith('.min.css')) {
         return false;
     }
     return true;
 };
 
-gulp.task('revImg', function() {
+gulp.task('revImg', function () {
     let combined = combiner.obj([
         gulp.src(config.img.SRC),
         gulpif(config.img.minFlag, smushit({
@@ -78,7 +78,7 @@ gulp.task('revImg', function() {
     combined.on('error', console.error.bind(console));
     return combined;
 });
-gulp.task('revCSS', function() {
+gulp.task('revCSS', function () {
     let combined = combiner.obj([
         gulp.src(config.css.SRC),
         revCollector(config.REVConifg),
@@ -94,28 +94,17 @@ gulp.task('revCSS', function() {
     combined.on('error', console.error.bind(console));
     return combined;
 });
-gulp.task('revJS', function() {
+gulp.task('revJS', function () {
     let combined = combiner.obj([
         gulp.src(config.js.SRC),
         revCollector(config.REVConifg),
-        gulpif(config.js.compileFlag, tap((file) => {
-            file.contents = browserify({
-                entries: file.path,
-                transform: [babelify.configure({
-                    presets: [
-                        ['@babel/env', {
-                            'targets': {
-                                'ie': '9',
-                            },
-                        }],
-                    ],
-                    plugins: [
-                        '@babel/plugin-transform-runtime',
-                    ],
-                })],
-            }).bundle();
+        gulpif(config.js.compileFlag, babel({
+            presets: [
+                ['@babel/env', {
+                    'targets': 'ie >= 9, Firefox ESR',
+                }],
+            ],
         })),
-        buffer(),
         uglify(),
         gulpif(isNotMinified, rename({
             suffix: '.min',
@@ -125,7 +114,7 @@ gulp.task('revJS', function() {
     combined.on('error', console.error.bind(console));
     return combined;
 });
-gulp.task('revHtml', function() {
+gulp.task('revHtml', function () {
     let options = {
         removeComments: true,
         collapseWhitespace: true,
@@ -241,7 +230,7 @@ gulp.task('test-browserify', () => {
     combined.on('error', console.error.bind(console));
     return combined;
 });
-gulp.task('dev', function(done) {
+gulp.task('dev', function (done) {
     runSequence(
         config.TASK_seq,
         done);

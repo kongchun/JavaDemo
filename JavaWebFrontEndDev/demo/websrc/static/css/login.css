@@ -7,7 +7,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to bottom right, #E1F5FE, #FAFAFA);
+  background: #CFD8DC;
 }
 
 .panel-container {
