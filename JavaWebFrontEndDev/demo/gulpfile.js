@@ -60,14 +60,14 @@ let config = {
     ],
 };
 
-let isNotMinified = function (f) {
+let isNotMinified = (f)=>{
     if (f.path.endsWith('.min.js') || f.path.endsWith('.min.css')) {
         return false;
     }
     return true;
 };
 
-gulp.task('revImg', function () {
+gulp.task('revImg', ()=>{
     let combined = combiner.obj([
         gulp.src(config.img.SRC),
         gulpif(config.img.minFlag, smushit({
@@ -78,7 +78,7 @@ gulp.task('revImg', function () {
     combined.on('error', console.error.bind(console));
     return combined;
 });
-gulp.task('revCSS', function () {
+gulp.task('revCSS', ()=>{
     let combined = combiner.obj([
         gulp.src(config.css.SRC),
         revCollector(config.REVConifg),
@@ -94,7 +94,7 @@ gulp.task('revCSS', function () {
     combined.on('error', console.error.bind(console));
     return combined;
 });
-gulp.task('revJS', function () {
+gulp.task('revJS', ()=>{
     let combined = combiner.obj([
         gulp.src(config.js.SRC),
         revCollector(config.REVConifg),
@@ -114,7 +114,7 @@ gulp.task('revJS', function () {
     combined.on('error', console.error.bind(console));
     return combined;
 });
-gulp.task('revHtml', function () {
+gulp.task('revHtml', ()=>{
     let options = {
         removeComments: true,
         collapseWhitespace: true,
@@ -230,7 +230,7 @@ gulp.task('test-browserify', () => {
     combined.on('error', console.error.bind(console));
     return combined;
 });
-gulp.task('dev', function (done) {
+gulp.task('dev', (done)=>{
     runSequence(
         config.TASK_seq,
         done);

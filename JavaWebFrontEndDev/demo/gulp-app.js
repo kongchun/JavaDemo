@@ -3,7 +3,7 @@
 'use strict';
 let _ = require('underscore');
 let through = require('through2');
-let fs = require('fs');
+let fs = require('graceful-fs');
 let packageJson = require('./package.json');
 
 let config = {

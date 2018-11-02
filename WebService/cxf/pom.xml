@@ -16,7 +16,6 @@
         <log4j.version>2.11.1</log4j.version>
         <cxf.version>3.2.6</cxf.version>
         <jax.version>2.3.0</jax.version>
-        <tomcat.home>D:\apache-tomcat-vscode\apache-tomcat-9.0.10</tomcat.home>
     </properties>
 
     <dependencies>
@@ -134,7 +133,6 @@
 
     </dependencies>
     <build>
-        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -142,7 +140,6 @@
                 <version>3.2.2</version>
                 <configuration>
                     <warSourceDirectory>${basedir}/webapp</warSourceDirectory>
-                    <webappDirectory>${tomcat.home}/webapps/${project.artifactId}</webappDirectory>
                 </configuration>
             </plugin>
         </plugins>
