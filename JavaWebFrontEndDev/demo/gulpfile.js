@@ -37,7 +37,7 @@ let config = {
         minFlag: false, // html文件是否压缩
     },
     others: {
-        SRC: SRC + '/**/*.!(png|jpg|gif|css|js|html|jsp|htm)',
+        SRC: SRC + '/**/*!(png|jpg|gif|css|js|html|jsp|htm)',
     },
     libs: {
         DEST: DEST + 'static/jlib/',

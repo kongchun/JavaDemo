@@ -20,17 +20,18 @@
             "label": "maven-install",
             "type": "shell",
             "command": "mvn clean install",
-            "group": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "problemMatcher": []
         },
         {
             "label": "maven-compile",
             "type": "shell",
             "command": "mvn clean compile war:exploded",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build",
+            "problemMatcher": []
         },
         {
             "label": "clean-webapp",
